@@ -1,0 +1,6 @@
+CronEspresso/bin
+CronEspresso/obj
+CronEspresso.Test/bin
+CronEspresso.Test/obj
+.vs/
+packages
