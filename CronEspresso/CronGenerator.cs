@@ -120,7 +120,17 @@ namespace CronEspresso
 
         private static string ParseCronTimeSpan(TimeSpan timeSpan)
         {
-            return $"{timeSpan:ss} {timeSpan:mm} {timeSpan:hh}";
+            var seconds = RemoveExtraDigitFromTimeValue(timeSpan.ToString("ss"));
+            var minutes = RemoveExtraDigitFromTimeValue(timeSpan.ToString("mm"));
+            var hours = RemoveExtraDigitFromTimeValue(timeSpan.ToString("hh"));
+
+            return $"{seconds} {minutes} {hours}";
+        }
+
+        private static string RemoveExtraDigitFromTimeValue(string timeValue)
+        {
+            //// this is used to remove the first digit if it is "0", so "06" becomes "6" to fit cron standards
+            return timeValue[0] == '0' ? timeValue[1].ToString() : timeValue;
         }
 
         private static string ParseMultiDaysList(List<int> daysToRun)

@@ -52,6 +52,7 @@
     <Compile Include="CronGenerator\GenerateMinutesCronExpression\when_a_user_generates_a_minute_cron_with_a_higher_number.cs" />
     <Compile Include="CronGenerator\GenerateMinutesCronExpression\when_a_user_generates_a_minute_cron_with_a_negative_number.cs" />
     <Compile Include="CronGenerator\GenerateMinutesCronExpression\when_a_user_generates_a_minute_cron_with_zero_minutes.cs" />
+    <Compile Include="CronGenerator\GenerateSetDayCronExpression\when_a_user_generates_a_set_day_cron.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
