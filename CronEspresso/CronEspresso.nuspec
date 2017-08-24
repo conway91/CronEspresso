@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Cron.CronEspresso</id>
+    <version>1.1</version>
+    <title>CronEspresso</title>
+    <authors>Martin Conway</authors>
+    <owners>Martin Conway</owners>
+    <projectUrl>https://github.com/conway91/CronEspresso</projectUrl>
+    <iconUrl>https://conwayimages.blob.core.windows.net/nugetimages/CronEspressoNugetIcon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Library for generating cron expressions</description>
+    <releaseNotes>Inital Realse of CronEspresso.</releaseNotes>
+    <copyright>Martin Conway Copyright 2017</copyright>
+    <tags>Cron cron CronTrigger crontrigger expressions Expressions create Create</tags>
+  </metadata>
+</package>

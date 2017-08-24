@@ -9,6 +9,7 @@ namespace CronEspresso
     {
         /// <summary>
         /// Generate a cron expression that runs every x minutes(s)
+        /// Example : A cron that will run every 5 minutes
         /// </summary>
         /// <param name="minutes">Amount of minutes to wait before running</param>
         /// <returns>Cron experssion</returns>
@@ -22,6 +23,7 @@ namespace CronEspresso
 
         /// <summary>
         /// Generate a cron expression that runs every x hour(s)
+        /// Example : A cron that will run every 2 hours
         /// </summary>
         /// <param name="hours">Amount of hours to wait before running</param>
         /// <returns>Cron experssion</returns>
@@ -35,6 +37,7 @@ namespace CronEspresso
 
         /// <summary>
         /// Generate a cron expression that runs at a given time every day of the week
+        /// Example : A cron that will run at 13:00 every day
         /// </summary>
         /// <param name="runTime">Time that the cron will run every day</param>
         /// <returns>Cron experssion</returns>
@@ -45,6 +48,7 @@ namespace CronEspresso
 
         /// <summary>
         /// Generate a cron expression that runs at a given time every given day
+        /// Example : A cron that will run at 13:00 every Wednesday
         /// </summary>
         /// <param name="runTime">Time that the cron will run</param>
         /// <param name="dayToRun">Day that the cron will run (Sunday - Monday)</param>
@@ -56,6 +60,7 @@ namespace CronEspresso
 
         /// <summary>
         /// Generate a cron expression that runs at a given time every given day
+        /// Example : A cron that will run at 13:00 every Wednesday
         /// </summary>
         /// <param name="runTime">Time that the cron will run</param>
         /// <param name="dayToRun">Day that the cron will run (0-6)</param>
@@ -67,6 +72,7 @@ namespace CronEspresso
 
         /// <summary>
         /// Generate a cron expression that runs at a given time only on weekdays (Monday-Friday)
+        /// Example : A cron that will run at 13:00 every Monday to Friday
         /// </summary>
         /// <param name="runTime">Time that the cron will run each weekday</param>
         /// <returns>Cron experssion</returns>
@@ -77,6 +83,7 @@ namespace CronEspresso
 
         /// <summary>
         /// Generate a cron expression that runs at a given time multiple times a week
+        /// Example : A cron that will run at 13:00 every Monday, Wednesday, and Saturday
         /// </summary>
         /// <param name="runTime">Time that the cron will run</param>
         /// <param name="daysToRun">Days that the cron will run (Sunday-Monday)</param>
@@ -84,38 +91,97 @@ namespace CronEspresso
         public static string GenerateMultiDayCronExpression(TimeSpan runTime, List<DayOfWeek> daysToRun)
         {
             var castedDaysToRun = daysToRun.Cast<int>().ToList();
-            return $"{ParseCronTimeSpan(runTime)} ? * {ParseMultiDaysList(castedDaysToRun)} *";
+            return ValidateMultiDayValues(runTime, castedDaysToRun);
         }
 
         /// <summary>
         /// Generate a cron expression that runs at a given time multiple times a week
+        /// Example : A cron that will run at 13:00 every Monday, Wednesday, and Saturday
         /// </summary>
         /// <param name="runTime">Time that the cron will run</param>
         /// <param name="daysToRun">Days that the cron will run (0-6)</param>
         /// <returns>Cron experssion</returns>
         public static string GenerateMultiDayCronExpression(TimeSpan runTime, List<int> daysToRun)
         {
-            return $"{ParseCronTimeSpan(runTime)} ? * {ParseMultiDaysList(daysToRun)} *";
+            return ValidateMultiDayValues(runTime, daysToRun);
         }
 
-        public static string GenerateWeeklySpanCronExpression(TimeSpan runTime, int startDay, int endDay)
+        /// <summary>
+        /// Generate a cron expression that runs at a given day every x amount of months
+        /// Example : A cron that will run at 13:00 on the 30th every 3 months
+        /// </summary>
+        /// <param name="runTime">Time that the cron will run</param>
+        /// <param name="dayofTheMonthToRunOn">The day that the cron will run on (1-31)</param>
+        /// <param name="monthsToRunOn">Time between months that the cron will run on (1-12)</param>
+        /// <returns>Cron experssion</returns>
+        public static string GenerateMonthlyCronExpression(TimeSpan runTime, int dayofTheMonthToRunOn, int monthsToRunOn)
+        {
+            if (dayofTheMonthToRunOn < 1 || dayofTheMonthToRunOn > 31)
+                throw new ArgumentOutOfRangeException(nameof(dayofTheMonthToRunOn), dayofTheMonthToRunOn, ExceptionMessages.InvalidDayofTheMonthException);
+
+            if (monthsToRunOn < 1 || monthsToRunOn > 12)
+                throw new ArgumentOutOfRangeException(nameof(monthsToRunOn), monthsToRunOn, ExceptionMessages.InvalidMonthToRunOnException);
+
+            return $"{ParseCronTimeSpan(runTime)} {dayofTheMonthToRunOn} 1/{monthsToRunOn} ? *";
+        }
+
+        /// <summary>
+        /// Generate a cron expression that runs at a set time of the month every x months
+        /// Example : A cron that will run run at 13:00 on the second Friday every 3 months
+        /// </summary>
+        /// <param name="runTime">Time that the cron will run</param>
+        /// <param name="timeOfMonthToRun">Period of the month the cron will run (Frst, Second, Thrid, Fourth, or Last)</param>
+        /// <param name="dayToRun">Day that the cron will run (Sunday - Monday)</param>
+        /// <param name="monthsToRunOn">Time between months that the cron will run on (1-12)</param>
+        /// <returns>Cron experssion</returns>
+        public static string GenerateSetDayMonthlyCronExpression(TimeSpan runTime, TimeOfMonthToRun timeOfMonthToRun, DayOfWeek dayToRun, int monthsToRunOn)
+        {
+            return ValidateTimeOfMonthValue(runTime, timeOfMonthToRun, (int)dayToRun, monthsToRunOn);
+        }
+
+        /// <summary>
+        /// Generate a cron expression that runs at a set time of the month every x months
+        /// Example : A cron that will run run at 13:00 on the second Friday every 3 months
+        /// </summary>
+        /// <param name="runTime">Time that the cron will run</param>
+        /// <param name="timeOfMonthToRun">Period of the month the cron will run (Frst, Second, Thrid, Fourth, or Last)</param>
+        /// <param name="dayToRun">Day that the cron will run (0 - 6)</param>
+        /// <param name="monthsToRunOn">Time between months that the cron will run on (1-12)</param>
+        /// <returns>Cron experssion</returns>
+        public static string GenerateSetDayMonthlyCronExpression(TimeSpan runTime, TimeOfMonthToRun timeOfMonthToRun, int dayToRun, int monthsToRunOn)
+        {
+            return ValidateTimeOfMonthValue(runTime, timeOfMonthToRun, dayToRun, monthsToRunOn);
+        }
+
+        public static string GenerateYearlyCronExpression()
         {
             throw new NotImplementedException();
         }
 
-        public static string GenerateWeeklySpanCronExpression(TimeSpan runTime, DayOfWeek startDay, DayOfWeek endDay)
+        private static string ValidateTimeOfMonthValue(TimeSpan runTime, TimeOfMonthToRun timeOfMonthToRun, int dayToRun, int monthsToRunOn)
         {
-            throw new NotImplementedException();
+            if (monthsToRunOn < 1 || monthsToRunOn > 12)
+                throw new ArgumentOutOfRangeException(nameof(monthsToRunOn), monthsToRunOn, ExceptionMessages.InvalidMonthToRunOnException);
+
+            if (timeOfMonthToRun != TimeOfMonthToRun.Last)
+            {
+                var day = ParseDayOfWeek(dayToRun);
+                var timeOfMonuthToRunIntValue = (int) timeOfMonthToRun;
+                return $"{ParseCronTimeSpan(runTime)} ? 1/{monthsToRunOn} {day}#{timeOfMonuthToRunIntValue} *";
+            }
+            else
+            {
+                var day = dayToRun + 1;
+                return $"{ParseCronTimeSpan(runTime)} ? 1/{monthsToRunOn} {day}L *";
+            }
         }
 
-        public static string GenerateMonthlyCronExpression()
+        private static string ValidateMultiDayValues(TimeSpan runTime, List<int> days)
         {
-            throw new NotImplementedException();
-        }
+            if (days.Count != days.Distinct().Count())
+                throw new ArgumentOutOfRangeException(nameof(days), days, ExceptionMessages.DuplicateDaysException);
 
-        public static string GenerateYearlyCronExpression(TimeSpan runTime, MonthOfYear monthToRunOn, int dayOfMonthToRunOn)
-        {
-            throw new NotImplementedException();
+            return $"{ParseCronTimeSpan(runTime)} ? * {ParseMultiDaysList(days)} *";
         }
 
         private static string ParseCronTimeSpan(TimeSpan timeSpan)
@@ -129,7 +195,7 @@ namespace CronEspresso
 
         private static string RemoveExtraDigitFromTimeValue(string timeValue)
         {
-            //// this is used to remove the first digit if it is "0", so "06" becomes "6" to fit cron standards
+            //// this is used to remove the first digit if it is "0", e.g. "06" becomes "6" to fit cron standards
             return timeValue[0] == '0' ? timeValue[1].ToString() : timeValue;
         }
 

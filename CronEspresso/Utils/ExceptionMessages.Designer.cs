@@ -61,6 +61,24 @@ namespace CronEspresso.Utils {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only one of each day of the week value can be passed in.
+        /// </summary>
+        public static string DuplicateDaysException {
+            get {
+                return ResourceManager.GetString("DuplicateDaysException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Day of the month parameter must be between 1 and 31.
+        /// </summary>
+        public static string InvalidDayofTheMonthException {
+            get {
+                return ResourceManager.GetString("InvalidDayofTheMonthException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Day of the week parameter should be between 0-6.
         /// </summary>
         public static string InvalidDayofTheWeekParameterException {
@@ -84,6 +102,15 @@ namespace CronEspresso.Utils {
         public static string InvalidMinuteParamaterException {
             get {
                 return ResourceManager.GetString("InvalidMinuteParamaterException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Month to run on parameter muster be between 1 and 12.
+        /// </summary>
+        public static string InvalidMonthToRunOnException {
+            get {
+                return ResourceManager.GetString("InvalidMonthToRunOnException", resourceCulture);
             }
         }
     }
