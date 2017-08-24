@@ -153,7 +153,7 @@ namespace CronEspresso
             return ValidateTimeOfMonthValue(runTime, timeOfMonthToRun, dayToRun, monthsToRunOn);
         }
 
-        public static string GenerateYearlyCronExpression(TimeSpan runTime, MonthOfYear monthToRunOn, int dayOfMonthToRunOn)
+        public static string GenerateYearlyCronExpression()
         {
             throw new NotImplementedException();
         }
@@ -166,7 +166,8 @@ namespace CronEspresso
             if (timeOfMonthToRun != TimeOfMonthToRun.Last)
             {
                 var day = ParseDayOfWeek(dayToRun);
-                return $"{ParseCronTimeSpan(runTime)} ? 1/{monthsToRunOn} {day}#{timeOfMonthToRun} *";
+                var timeOfMonuthToRunIntValue = (int) timeOfMonthToRun;
+                return $"{ParseCronTimeSpan(runTime)} ? 1/{monthsToRunOn} {day}#{timeOfMonuthToRunIntValue} *";
             }
             else
             {

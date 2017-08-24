@@ -51,7 +51,6 @@
     <Compile Include="Utils\MonthOfYear.cs" />
     <Compile Include="Utils\TimeOfMonthToRun.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Utils\ExceptionMessages.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
