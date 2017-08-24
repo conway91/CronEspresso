@@ -43,6 +43,7 @@
     <Compile Include="CronDeserializer.cs" />
     <Compile Include="CronGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\CronValueValidator.cs" />
     <Compile Include="Utils\ExceptionMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

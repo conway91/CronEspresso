@@ -15,8 +15,7 @@ namespace CronEspresso
         /// <returns>Cron experssion</returns>
         public static string GenerateMinutesCronExpression(int minutes)
         {
-            if(minutes < 1 || minutes > 59)
-                throw new ArgumentOutOfRangeException(nameof(minutes), minutes, ExceptionMessages.InvalidMinuteParamaterException);
+            CronValueValidator.ValidateMinutes(minutes);
 
             return $"0 0/{minutes} * 1/1 * ? *"; 
         }
@@ -29,8 +28,7 @@ namespace CronEspresso
         /// <returns>Cron experssion</returns>
         public static string GenerateHourlyCronExpression(int hours)
         {
-            if (hours < 1 || hours > 23)
-                throw new ArgumentOutOfRangeException(nameof(hours), hours, ExceptionMessages.InvalidHourParamaterException);
+            CronValueValidator.ValidateHours(hours);
 
             return $"0 0 0/{hours} 1/1 * ? *";
         }
@@ -91,7 +89,7 @@ namespace CronEspresso
         public static string GenerateMultiDayCronExpression(TimeSpan runTime, List<DayOfWeek> daysToRun)
         {
             var castedDaysToRun = daysToRun.Cast<int>().ToList();
-            return ValidateMultiDayValues(runTime, castedDaysToRun);
+            return CreateMultiDayValue(runTime, castedDaysToRun);
         }
 
         /// <summary>
@@ -103,7 +101,7 @@ namespace CronEspresso
         /// <returns>Cron experssion</returns>
         public static string GenerateMultiDayCronExpression(TimeSpan runTime, List<int> daysToRun)
         {
-            return ValidateMultiDayValues(runTime, daysToRun);
+            return CreateMultiDayValue(runTime, daysToRun);
         }
 
         /// <summary>
@@ -116,11 +114,8 @@ namespace CronEspresso
         /// <returns>Cron experssion</returns>
         public static string GenerateMonthlyCronExpression(TimeSpan runTime, int dayofTheMonthToRunOn, int monthsToRunOn)
         {
-            if (dayofTheMonthToRunOn < 1 || dayofTheMonthToRunOn > 31)
-                throw new ArgumentOutOfRangeException(nameof(dayofTheMonthToRunOn), dayofTheMonthToRunOn, ExceptionMessages.InvalidDayofTheMonthException);
-
-            if (monthsToRunOn < 1 || monthsToRunOn > 12)
-                throw new ArgumentOutOfRangeException(nameof(monthsToRunOn), monthsToRunOn, ExceptionMessages.InvalidMonthToRunOnException);
+            CronValueValidator.ValidateDayOfMonthToRunOn(dayofTheMonthToRunOn);
+            CronValueValidator.ValidateMonthsToRunAfter(monthsToRunOn);
 
             return $"{ParseCronTimeSpan(runTime)} {dayofTheMonthToRunOn} 1/{monthsToRunOn} ? *";
         }
@@ -134,9 +129,9 @@ namespace CronEspresso
         /// <param name="dayToRun">Day that the cron will run (Sunday - Monday)</param>
         /// <param name="monthsToRunOn">Time between months that the cron will run on (1-12)</param>
         /// <returns>Cron experssion</returns>
-        public static string GenerateSetDayMonthlyCronExpression(TimeSpan runTime, TimeOfMonthToRun timeOfMonthToRun, DayOfWeek dayToRun, int monthsToRunOn)
+        public static string GenerateSetDayMonthlyCronExpression(TimeSpan runTime, TimeOfMonthToRun timeOfMonthToRun, DayOfWeek dayToRun, int amountOfMonthsToRunAfter)
         {
-            return ValidateTimeOfMonthValue(runTime, timeOfMonthToRun, (int)dayToRun, monthsToRunOn);
+            return CreateTimeOfMonthValue(runTime, timeOfMonthToRun, (int)dayToRun, amountOfMonthsToRunAfter);
         }
 
         /// <summary>
@@ -146,40 +141,70 @@ namespace CronEspresso
         /// <param name="runTime">Time that the cron will run</param>
         /// <param name="timeOfMonthToRun">Period of the month the cron will run (Frst, Second, Thrid, Fourth, or Last)</param>
         /// <param name="dayToRun">Day that the cron will run (0 - 6)</param>
-        /// <param name="monthsToRunOn">Time between months that the cron will run on (1-12)</param>
+        /// <param name="amountOfMonthsToRunAfter">Time between months that the cron will run on (1-12)</param>
         /// <returns>Cron experssion</returns>
-        public static string GenerateSetDayMonthlyCronExpression(TimeSpan runTime, TimeOfMonthToRun timeOfMonthToRun, int dayToRun, int monthsToRunOn)
+        public static string GenerateSetDayMonthlyCronExpression(TimeSpan runTime, TimeOfMonthToRun timeOfMonthToRun, int dayToRun, int amountOfMonthsToRunAfter)
         {
-            return ValidateTimeOfMonthValue(runTime, timeOfMonthToRun, dayToRun, monthsToRunOn);
+            return CreateTimeOfMonthValue(runTime, timeOfMonthToRun, dayToRun, amountOfMonthsToRunAfter);
         }
 
-        public static string GenerateYearlyCronExpression()
+        /// <summary>
+        /// Generate a cron expression that runs at a set day on a set month once a year
+        /// Example : A cron that will run on the 13th of March every year
+        /// </summary>
+        /// <param name="runTime">Time that the cron will run</param>
+        /// <param name="dayOfMonthToRunOn">Day of the month the cron will run on (1-31 (29 for Feburary))</param>
+        /// <param name="monthToRunOn">Month of the year the cron will run on (Janurary - December)</param>
+        /// <returns>Cron experssion</returns>
+        public static string GenerateYearlyCronExpression(TimeSpan runTime, int dayOfMonthToRunOn, MonthOfYear monthToRunOn)
         {
-            throw new NotImplementedException();
+            return CreateYearlyValue(runTime, dayOfMonthToRunOn, (int)monthToRunOn);
         }
 
-        private static string ValidateTimeOfMonthValue(TimeSpan runTime, TimeOfMonthToRun timeOfMonthToRun, int dayToRun, int monthsToRunOn)
+        /// <summary>
+        /// Generate a cron expression that runs at a set day on a set month once a year
+        /// Example : A cron that will run on the 13th of March every year
+        /// </summary>
+        /// <param name="runTime">Time that the cron will run</param>
+        /// <param name="dayOfMonthToRunOn">Day of the month the cron will run on (1-31 (29 for Feburary))</param>
+        /// <param name="monthToRunOn">Month of the year the cron will run on (1 - 12)</param>
+        /// <returns>Cron experssion</returns>
+        public static string GenerateYearlyCronExpression(TimeSpan runTime, int dayOfMonthToRunOn, int monthToRunOn)
         {
-            if (monthsToRunOn < 1 || monthsToRunOn > 12)
-                throw new ArgumentOutOfRangeException(nameof(monthsToRunOn), monthsToRunOn, ExceptionMessages.InvalidMonthToRunOnException);
+            return CreateYearlyValue(runTime, dayOfMonthToRunOn, monthToRunOn);
+        }
+
+        #region Private Implementation      
+        private static string CreateYearlyValue(TimeSpan runTime, int dayOfMonthToRunOn, int monthToRunOn)
+        {
+            CronValueValidator.ValidateDayOfMonthToRunOn(dayOfMonthToRunOn);
+            CronValueValidator.ValidateMonthToRunOn(monthToRunOn);
+            CronValueValidator.ValidateDayOfMonthForFebrary(monthToRunOn, dayOfMonthToRunOn);
+            CronValueValidator.ValidateDayOfMonthForShorterMonth(monthToRunOn, dayOfMonthToRunOn);
+
+            return $"{ParseCronTimeSpan(runTime)} {dayOfMonthToRunOn} {monthToRunOn} ? *";
+        }
+
+        private static string CreateTimeOfMonthValue(TimeSpan runTime, TimeOfMonthToRun timeOfMonthToRun, int dayToRun, int amountOfMonthsToRunAfter)
+        {
+            CronValueValidator.ValidateMonthsToRunAfter(amountOfMonthsToRunAfter);
 
             if (timeOfMonthToRun != TimeOfMonthToRun.Last)
             {
                 var day = ParseDayOfWeek(dayToRun);
                 var timeOfMonuthToRunIntValue = (int) timeOfMonthToRun;
-                return $"{ParseCronTimeSpan(runTime)} ? 1/{monthsToRunOn} {day}#{timeOfMonuthToRunIntValue} *";
+                return $"{ParseCronTimeSpan(runTime)} ? 1/{amountOfMonthsToRunAfter} {day}#{timeOfMonuthToRunIntValue} *";
             }
             else
             {
                 var day = dayToRun + 1;
-                return $"{ParseCronTimeSpan(runTime)} ? 1/{monthsToRunOn} {day}L *";
+                return $"{ParseCronTimeSpan(runTime)} ? 1/{amountOfMonthsToRunAfter} {day}L *";
             }
         }
 
-        private static string ValidateMultiDayValues(TimeSpan runTime, List<int> days)
+        private static string CreateMultiDayValue(TimeSpan runTime, List<int> days)
         {
-            if (days.Count != days.Distinct().Count())
-                throw new ArgumentOutOfRangeException(nameof(days), days, ExceptionMessages.DuplicateDaysException);
+            CronValueValidator.ValidateDays(days);
 
             return $"{ParseCronTimeSpan(runTime)} ? * {ParseMultiDaysList(days)} *";
         }
@@ -233,5 +258,6 @@ namespace CronEspresso
                     throw new ArgumentOutOfRangeException(nameof(dayOfTheWeek), dayOfTheWeek, ExceptionMessages.InvalidDayofTheWeekParameterException);
             }
         }
+        #endregion
     }
 }
