@@ -84,7 +84,7 @@ namespace CronEspresso
         public static string GenerateMultiDayCronExpression(TimeSpan runTime, List<DayOfWeek> daysToRun)
         {
             var castedDaysToRun = daysToRun.Cast<int>().ToList();
-            return $"{ParseCronTimeSpan(runTime)} ? * {ParseMultiDaysList(castedDaysToRun)} *";
+            return ValidateMultiDayValues(runTime, castedDaysToRun);
         }
 
         /// <summary>
@@ -95,17 +95,7 @@ namespace CronEspresso
         /// <returns>Cron experssion</returns>
         public static string GenerateMultiDayCronExpression(TimeSpan runTime, List<int> daysToRun)
         {
-            return $"{ParseCronTimeSpan(runTime)} ? * {ParseMultiDaysList(daysToRun)} *";
-        }
-
-        public static string GenerateWeeklySpanCronExpression(TimeSpan runTime, int startDay, int endDay)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static string GenerateWeeklySpanCronExpression(TimeSpan runTime, DayOfWeek startDay, DayOfWeek endDay)
-        {
-            throw new NotImplementedException();
+            return ValidateMultiDayValues(runTime, daysToRun);
         }
 
         public static string GenerateMonthlyCronExpression()
@@ -116,6 +106,14 @@ namespace CronEspresso
         public static string GenerateYearlyCronExpression(TimeSpan runTime, MonthOfYear monthToRunOn, int dayOfMonthToRunOn)
         {
             throw new NotImplementedException();
+        }
+
+        private static string ValidateMultiDayValues(TimeSpan runTime, List<int> days)
+        {
+            if (days.Count != days.Distinct().Count())
+                throw new ArgumentOutOfRangeException(nameof(days), days, ExceptionMessages.DuplicateDaysException);
+
+            return $"{ParseCronTimeSpan(runTime)} ? * {ParseMultiDaysList(days)} *";
         }
 
         private static string ParseCronTimeSpan(TimeSpan timeSpan)

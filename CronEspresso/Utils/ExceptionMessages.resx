@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DuplicateDaysException" xml:space="preserve">
+    <value>Only one of each day of the week value can be passed in</value>
+  </data>
   <data name="InvalidDayofTheWeekParameterException" xml:space="preserve">
     <value>Day of the week parameter should be between 0-6</value>
   </data>

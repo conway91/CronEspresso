@@ -61,6 +61,15 @@ namespace CronEspresso.Utils {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only one of each day of the week value can be passed in.
+        /// </summary>
+        public static string DuplicateDaysException {
+            get {
+                return ResourceManager.GetString("DuplicateDaysException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Day of the week parameter should be between 0-6.
         /// </summary>
         public static string InvalidDayofTheWeekParameterException {
