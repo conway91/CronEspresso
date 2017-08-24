@@ -120,6 +120,9 @@
   <data name="DuplicateDaysException" xml:space="preserve">
     <value>Only one of each day of the week value can be passed in</value>
   </data>
+  <data name="InvalidDayofTheMonthException" xml:space="preserve">
+    <value>Day of the month parameter must be between 1 and 31</value>
+  </data>
   <data name="InvalidDayofTheWeekParameterException" xml:space="preserve">
     <value>Day of the week parameter should be between 0-6</value>
   </data>
@@ -128,5 +131,8 @@
   </data>
   <data name="InvalidMinuteParamaterException" xml:space="preserve">
     <value>Minutes paramater must be between 1 and 59</value>
+  </data>
+  <data name="InvalidMonthToRunOnException" xml:space="preserve">
+    <value>Month to run on parameter muster be between 1 and 12</value>
   </data>
 </root>
