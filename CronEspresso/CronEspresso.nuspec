@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Cron.CronEspresso</id>
-    <version>1.1</version>
+    <id>CronEspresso</id>
+    <version>1.2</version>
     <title>CronEspresso</title>
     <authors>Martin Conway</authors>
     <owners>Martin Conway</owners>

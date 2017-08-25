@@ -60,6 +60,7 @@
     <Compile Include="CronGenerator\GenerateSetDayCronExpression\when_a_user_generates_a_set_day_cron_with_an_invalid_day.cs" />
     <Compile Include="CronGenerator\GenerateSetDayMonthlyCronExpression\when_a_user_generates_a_set_day_monthly_cron.cs" />
     <Compile Include="CronGenerator\GenerateWeekDayOnlyCronExpression\when_a_user_generates_a_weekday_only_cron.cs" />
+    <Compile Include="CronGenerator\GenerateYearlyCronExpression\when_a_user_generates_a_yearly_cron.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

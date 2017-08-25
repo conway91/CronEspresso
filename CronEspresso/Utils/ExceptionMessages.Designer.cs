@@ -70,6 +70,15 @@ namespace CronEspresso.Utils {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Month to run on parameter must be between 1 and 12.
+        /// </summary>
+        public static string InvalidAmountOfMonthsToRunAfterException {
+            get {
+                return ResourceManager.GetString("InvalidAmountOfMonthsToRunAfterException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Day of the month parameter must be between 1 and 31.
         /// </summary>
         public static string InvalidDayofTheMonthException {
@@ -84,6 +93,15 @@ namespace CronEspresso.Utils {
         public static string InvalidDayofTheWeekParameterException {
             get {
                 return ResourceManager.GetString("InvalidDayofTheWeekParameterException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Feburary can only have a maximum of 29 days.
+        /// </summary>
+        public static string InvalidFeburaryDateParameterException {
+            get {
+                return ResourceManager.GetString("InvalidFeburaryDateParameterException", resourceCulture);
             }
         }
         
@@ -106,11 +124,20 @@ namespace CronEspresso.Utils {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Month to run on parameter muster be between 1 and 12.
+        ///   Looks up a localized string similar to Month Parameter must be between 1 and 12.
         /// </summary>
-        public static string InvalidMonthToRunOnException {
+        public static string InvalidMonthParameterException {
             get {
-                return ResourceManager.GetString("InvalidMonthToRunOnException", resourceCulture);
+                return ResourceManager.GetString("InvalidMonthParameterException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The given month cannot have more than 30 days.
+        /// </summary>
+        public static string InvalidShorterMonthParameterException {
+            get {
+                return ResourceManager.GetString("InvalidShorterMonthParameterException", resourceCulture);
             }
         }
     }

@@ -18,7 +18,7 @@ namespace CronEspresso.Test.CronGenerator.GenerateMonthlyCronExpression
         [Test]
         public void it_throws_an_argument_out_of_range_exception_when_month_is_zero()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => CronEspressoGenerator.GenerateMonthlyCronExpression(_midDayTime, ValidMonthAndDay, Zero), ExceptionMessages.InvalidMonthToRunOnException);
+            Assert.Throws<ArgumentOutOfRangeException>(() => CronEspressoGenerator.GenerateMonthlyCronExpression(_midDayTime, ValidMonthAndDay, Zero), ExceptionMessages.InvalidAmountOfMonthsToRunAfterException);
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace CronEspresso.Test.CronGenerator.GenerateMonthlyCronExpression
         [Test]
         public void it_throws_an_argument_out_of_range_exception_when_month_is_negative()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => CronEspressoGenerator.GenerateMonthlyCronExpression(_midDayTime, ValidMonthAndDay, NegativeValue), ExceptionMessages.InvalidMonthToRunOnException);
+            Assert.Throws<ArgumentOutOfRangeException>(() => CronEspressoGenerator.GenerateMonthlyCronExpression(_midDayTime, ValidMonthAndDay, NegativeValue), ExceptionMessages.InvalidAmountOfMonthsToRunAfterException);
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace CronEspresso.Test.CronGenerator.GenerateMonthlyCronExpression
         [Test]
         public void it_throws_an_argument_out_of_range_exception_when_month_is_over_max()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => CronEspressoGenerator.GenerateMonthlyCronExpression(_midDayTime, ValidMonthAndDay, InvalidMaxMonth), ExceptionMessages.InvalidMonthToRunOnException);
+            Assert.Throws<ArgumentOutOfRangeException>(() => CronEspressoGenerator.GenerateMonthlyCronExpression(_midDayTime, ValidMonthAndDay, InvalidMaxMonth), ExceptionMessages.InvalidAmountOfMonthsToRunAfterException);
         }
 
         [Test]
