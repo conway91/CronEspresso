@@ -16,7 +16,13 @@ For detailed documention on how to use the package, visit the GitHub [Wiki](http
 
 ## Version History
 
-### v1.2.0 (Latest NuGet Version)
+### v1.3.0 (Latest NuGet Version)
+
+```
+* Removal of empty deserialization class until version 2 is released
+```
+
+### v1.2.0
 
 ```
 * Additon of yearly cron creation implemented
@@ -26,5 +32,5 @@ For detailed documention on how to use the package, visit the GitHub [Wiki](http
 ### v1.1.0 
 
 ```
-* Inital Release
+* Initial Release
 ```
