@@ -16,7 +16,14 @@ For detailed documention on how to use the package, visit the GitHub [Wiki](http
 
 ## Version History
 
-### v1.2.0 (Latest NuGet Version)
+### v1.3.0 (Latest NuGet Version)
+
+```
+* Removal of not implemented class
+* Small code refactor with no functionality change
+```
+
+### v1.2.0
 
 ```
 * Additon of yearly cron creation implemented
