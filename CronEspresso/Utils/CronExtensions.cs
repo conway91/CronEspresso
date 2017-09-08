@@ -1,10 +1,33 @@
 ﻿using System;
+using System.Linq;
 using CronEspresso.Resources;
 
 namespace CronEspresso.Utils
 {
     public static class CronExtensions
     {
+        /// <summary>
+        /// Removes the year value of a cron expression
+        /// Having no year value can sometimes be required when supplying a cron expression
+        /// </summary>
+        /// <param name="cronExpression">Full cron expression</param>
+        /// <returns>Cron expression minus the year value</returns>
+        public static string RemoveYearValue(this string cronExpression)
+        {
+            var validateResult = cronExpression.ValidateCron();
+            if (!validateResult.IsValidCron)
+                throw new ArgumentException(validateResult.ValidationMessage);
+
+            return cronExpression.Split(' ').Length == 6 
+                ? cronExpression 
+                : cronExpression.Substring(0, cronExpression.LastIndexOf(' '));
+        }
+
+        /// <summary>
+        /// Validates a cron expression to ensure it is in the correct stanard format
+        /// </summary>
+        /// <param name="cronExpression">Full cron expression</param>
+        /// <returns>CronValidationResults which contains a bool if validate and a string description of results</returns>
         public static CronValidationResults ValidateCron(this string cronExpression)
         {
             if (string.IsNullOrWhiteSpace(cronExpression))
@@ -15,13 +38,13 @@ namespace CronEspresso.Utils
             if(cronValues.Length > 7 || cronValues.Length < 6)
                 return new CronValidationResults(false, string.Format(ValidationMessages.InvalidCronFormat, cronExpression));
 
-            if(!ValidateTimeSpanValue(cronValues[0], TimeSpanValueType.Second))
+            if(!ValidateTimeSpanValue(cronValues[0], 59))
                 return new CronValidationResults(false, string.Format(ValidationMessages.InvalidSecondsValue, cronExpression));
 
-            if (!ValidateTimeSpanValue(cronValues[1], TimeSpanValueType.Minutes))
+            if (!ValidateTimeSpanValue(cronValues[1], 59))
                 return new CronValidationResults(false, string.Format(ValidationMessages.InvalidMinutesValue, cronExpression));
 
-            if (!ValidateTimeSpanValue(cronValues[2], TimeSpanValueType.Hours))
+            if (!ValidateTimeSpanValue(cronValues[2], 23))
                 return new CronValidationResults(false, string.Format(ValidationMessages.InvalidHoursValue, cronExpression));
 
             if (!ValidateDayOfMonthValue(cronValues[3]))
@@ -42,29 +65,59 @@ namespace CronEspresso.Utils
             return new CronValidationResults(true, string.Format(ValidationMessages.ValidExpression, cronExpression));
         }
 
-        private static bool ValidateTimeSpanValue(string timeValue, TimeSpanValueType valueType)
+        private static bool ValidateTimeSpanValue(string timeValue, int maxValue)
         {
-            int maxValue;
-            switch (valueType)
-            {
-                case TimeSpanValueType.Second:
-                case TimeSpanValueType.Minutes:
-                    maxValue = 59;
-                    break;
-                case TimeSpanValueType.Hours:
-                    maxValue = 23;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(valueType), valueType, null);
-            }
+            if (timeValue == "*")
+                return true;
 
             int parsedtimeValue;
             if (int.TryParse(timeValue, out parsedtimeValue))
-            {
                 return parsedtimeValue >= 0 && parsedtimeValue <= maxValue;
+
+            if (timeValue.Contains("-"))
+                return ValidateCharcterSeperatedIntValues(timeValue, maxValue, '-');
+
+            if (timeValue.Contains("/"))
+            {
+                if (timeValue[0] == '/')
+                {
+                    try
+                    {
+                        var value = int.Parse(timeValue.Substring(1, timeValue.Length));
+                        return value >= 0 && value <= maxValue;
+                    }
+                    catch (FormatException)
+                    {
+                        return false;
+                    }
+                }
+
+                return ValidateCharcterSeperatedIntValues(timeValue, maxValue, '/');
             }
 
-            return true;
+            if (timeValue.Contains(","))
+            {
+                var timeValues = timeValue.Split(',');
+                return timeValues.Select(int.Parse).All(parsedValue => parsedValue >= 0 && parsedValue <= maxValue);
+            }
+
+            return false;
+        }
+
+        private static bool ValidateCharcterSeperatedIntValues(string values, int maxValue, char seperator)
+        {
+            var index = values.IndexOf(seperator);
+
+            try
+            {
+                var firstValue = int.Parse(values.Substring(0, index));
+                var secondValue = int.Parse(values.Substring(index, values.Length));
+                return firstValue <= secondValue && firstValue >= 0 && secondValue <= maxValue;            
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
         }
 
         private static bool ValidateDayOfMonthValue(string dayOfMonthValue)
@@ -86,12 +139,5 @@ namespace CronEspresso.Utils
         {
             return true;
         }
-    }
-
-    internal enum TimeSpanValueType
-    {
-        Second,
-        Minutes,
-        Hours
     }
 }
