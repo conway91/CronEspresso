@@ -1,10 +1,10 @@
 # CronEspresso
 
-C# library for generating cron expressions from given times and dates. This allows the creation of cron strings at run time, remove the need to hard cod cron string values into the source code.
+C# library for generating cron expressions from given times and dates. This allows the creation of cron strings at run time, remove the need to hard code cron string values into the source code.
 
 ## Installing
 
-To use CronEspresso in your solution download the NuGet package via Visual Studio's package manager (search for 'CronEspresso') or run the following line to get the most recent version
+To use CronEspresso in your solution download the NuGet package via Visual Studio's package manager (search for 'CronEspresso') or run the following linewithin the package console window to get the most recent version:
 
 ```
 Install-Package CronEspresso
@@ -19,7 +19,8 @@ For detailed documention on how to use the package, visit the GitHub [Wiki](http
 ### v1.3.0 (Latest NuGet Version)
 
 ```
-* Removal of empty deserialization class until version 2 is released
+* Removal of not implemented class
+* Small code refactor with no functionality change
 ```
 
 ### v1.2.0
@@ -32,5 +33,5 @@ For detailed documention on how to use the package, visit the GitHub [Wiki](http
 ### v1.1.0 
 
 ```
-* Initial Release
+* Inital Release
 ```
