@@ -13,7 +13,7 @@ namespace CronEspresso.Test.ValidateCron
         [SetUp]
         public void SetUp()
         {
-            _validationResult = NullString.ValidateCron();
+            _validationResult = CronHelpers.ValidateCron(NullString);
         }
 
         [Test]

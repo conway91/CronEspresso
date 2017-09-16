@@ -1,0 +1,8 @@
+C:\work\CronEspresso\CronEspresso.Example\bin\Release\CronEspresso.Example.exe.config
+C:\work\CronEspresso\CronEspresso.Example\obj\Release\CronEspresso.Example.csprojResolveAssemblyReference.cache
+C:\work\CronEspresso\CronEspresso.Example\bin\Release\CronEspresso.Example.exe
+C:\work\CronEspresso\CronEspresso.Example\bin\Release\CronEspresso.Example.pdb
+C:\work\CronEspresso\CronEspresso.Example\bin\Release\CronEspresso.dll
+C:\work\CronEspresso\CronEspresso.Example\bin\Release\CronEspresso.pdb
+C:\work\CronEspresso\CronEspresso.Example\obj\Release\CronEspresso.Example.exe
+C:\work\CronEspresso\CronEspresso.Example\obj\Release\CronEspresso.Example.pdb

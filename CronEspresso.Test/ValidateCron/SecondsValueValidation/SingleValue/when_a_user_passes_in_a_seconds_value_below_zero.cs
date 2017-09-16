@@ -2,18 +2,18 @@
 using CronEspresso.Utils;
 using NUnit.Framework;
 
-namespace CronEspresso.Test.ValidateCron
+namespace CronEspresso.Test.ValidateCron.SecondsValueValidation.SingleValue
 {
     [TestFixture]
-    public class when_a_user_passes_in_an_empty_string
+    public class when_a_user_passes_in_a_seconds_value_below_zero
     {
-        private static readonly string NullString = string.Empty;
+        private const string CronValue = "-1 * * * * *";
         private CronValidationResults _validationResult;
 
         [SetUp]
         public void SetUp()
         {
-            _validationResult = CronHelpers.ValidateCron(NullString);
+            _validationResult = CronHelpers.ValidateCron(CronValue);
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace CronEspresso.Test.ValidateCron
         [Test]
         public void it_gives_the_correct_validation_message()
         {
-            Assert.AreEqual(ValidationMessages.EmptyString, _validationResult.ValidationMessage);
+            Assert.AreEqual(string.Format(ValidationMessages.InvalidSecondsValue, CronValue), _validationResult.ValidationMessage);
         }
     }
 }

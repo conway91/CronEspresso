@@ -12,13 +12,13 @@ namespace CronEspresso.Test.ValidateCron
     [TestFixture]
     public class when_a_user_passes_in_a_cron_that_is_too_short
     {
-        private static readonly string shortCron = "* * * * *";
+        private const string ShortCron = "* * * * *";
         private CronValidationResults _validationResult;
 
         [SetUp]
         public void SetUp()
         {
-            _validationResult = shortCron.ValidateCron();
+            _validationResult = CronHelpers.ValidateCron(ShortCron);
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace CronEspresso.Test.ValidateCron
         [Test]
         public void it_gives_the_correct_validation_message()
         {
-            Assert.AreEqual(string.Format(ValidationMessages.InvalidCronFormat, shortCron), _validationResult.ValidationMessage);
+            Assert.AreEqual(string.Format(ValidationMessages.InvalidCronFormat, ShortCron), _validationResult.ValidationMessage);
         }
     }
 }

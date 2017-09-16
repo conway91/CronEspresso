@@ -4,7 +4,7 @@ using CronEspresso.Resources;
 
 namespace CronEspresso.Utils
 {
-    public static class CronExtensions
+    public static class CronHelpers
     {
         /// <summary>
         /// Removes the year value of a cron expression
@@ -12,14 +12,14 @@ namespace CronEspresso.Utils
         /// </summary>
         /// <param name="cronExpression">Full cron expression</param>
         /// <returns>Cron expression minus the year value</returns>
-        public static string RemoveYearValue(this string cronExpression)
+        public static string RemoveCronYearValue(string cronExpression)
         {
-            var validateResult = cronExpression.ValidateCron();
+            var validateResult = ValidateCron(cronExpression);
             if (!validateResult.IsValidCron)
                 throw new ArgumentException(validateResult.ValidationMessage);
 
-            return cronExpression.Split(' ').Length == 6 
-                ? cronExpression 
+            return cronExpression.Split(' ').Length == 6
+                ? cronExpression
                 : cronExpression.Substring(0, cronExpression.LastIndexOf(' '));
         }
 
@@ -28,17 +28,17 @@ namespace CronEspresso.Utils
         /// </summary>
         /// <param name="cronExpression">Full cron expression</param>
         /// <returns>CronValidationResults which contains a bool if validate and a string description of results</returns>
-        public static CronValidationResults ValidateCron(this string cronExpression)
+        public static CronValidationResults ValidateCron(string cronExpression)
         {
             if (string.IsNullOrWhiteSpace(cronExpression))
                 return new CronValidationResults(false, ValidationMessages.EmptyString);
 
             var cronValues = cronExpression.Split(' ');
 
-            if(cronValues.Length > 7 || cronValues.Length < 6)
+            if (cronValues.Length > 7 || cronValues.Length < 6)
                 return new CronValidationResults(false, string.Format(ValidationMessages.InvalidCronFormat, cronExpression));
 
-            if(!ValidateTimeSpanValue(cronValues[0], 59))
+            if (!ValidateTimeSpanValue(cronValues[0], 59))
                 return new CronValidationResults(false, string.Format(ValidationMessages.InvalidSecondsValue, cronExpression));
 
             if (!ValidateTimeSpanValue(cronValues[1], 59))
@@ -83,7 +83,7 @@ namespace CronEspresso.Utils
                 {
                     try
                     {
-                        var value = int.Parse(timeValue.Substring(1, timeValue.Length));
+                        var value = int.Parse(timeValue.Substring(1, timeValue.Length - 1));
                         return value >= 0 && value <= maxValue;
                     }
                     catch (FormatException)
@@ -98,26 +98,11 @@ namespace CronEspresso.Utils
             if (timeValue.Contains(","))
             {
                 var timeValues = timeValue.Split(',');
-                return timeValues.Select(int.Parse).All(parsedValue => parsedValue >= 0 && parsedValue <= maxValue);
+
+                return !timeValues.Any(string.IsNullOrWhiteSpace) && timeValues.Select(int.Parse).All(parsedValue => parsedValue >= 0 && parsedValue <= maxValue);
             }
 
             return false;
-        }
-
-        private static bool ValidateCharcterSeperatedIntValues(string values, int maxValue, char seperator)
-        {
-            var index = values.IndexOf(seperator);
-
-            try
-            {
-                var firstValue = int.Parse(values.Substring(0, index));
-                var secondValue = int.Parse(values.Substring(index, values.Length));
-                return firstValue <= secondValue && firstValue >= 0 && secondValue <= maxValue;            
-            }
-            catch (FormatException)
-            {
-                return false;
-            }
         }
 
         private static bool ValidateDayOfMonthValue(string dayOfMonthValue)
@@ -138,6 +123,24 @@ namespace CronEspresso.Utils
         private static bool ValidateYearValue(string yearValue)
         {
             return true;
+        }
+
+        private static bool ValidateCharcterSeperatedIntValues(string values, int maxValue, char seperator)
+        {
+            if (values.Count(c => c == seperator) > 1)
+                return false;
+
+            try
+            {
+                var firstValue = int.Parse(values.Substring(0, values.IndexOf(seperator)));
+                var secondValue = int.Parse(values.Substring(values.IndexOf(seperator) + 1));
+
+                return firstValue <= secondValue && firstValue >= 0 && secondValue <= maxValue;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
         }
     }
 }
