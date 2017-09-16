@@ -1,9 +1,8 @@
-﻿
-using CronEspresso.Resources;
+﻿using CronEspresso.Resources;
 using CronEspresso.Utils;
 using NUnit.Framework;
 
-namespace CronEspresso.Test.ValidateCron.YearsValueValidation.SingleValue
+namespace CronEspresso.Test.ValidateCron.MonthValue.StringSingleValue
 {
     [TestFixture]
     public class when_a_user_passes_in_all_values_years_value

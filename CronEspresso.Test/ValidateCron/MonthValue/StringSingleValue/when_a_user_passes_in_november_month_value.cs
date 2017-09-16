@@ -5,9 +5,9 @@ using NUnit.Framework;
 namespace CronEspresso.Test.ValidateCron.MonthValue.StringSingleValue
 {
     [TestFixture]
-    public class when_a_user_passes_in_lowest_int_years_value
+    public class when_a_user_passes_in_november_month_value
     {
-        private const string CronValue = "* * * * * * 1970";
+        private const string CronValue = "* * * * NOV *";
         private CronValidationResults _validationResult;
 
         [SetUp]

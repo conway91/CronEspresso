@@ -2,12 +2,12 @@
 using CronEspresso.Utils;
 using NUnit.Framework;
 
-namespace CronEspresso.Test.ValidateCron.MonthValue.StringSingleValue
+namespace CronEspresso.Test.ValidateCron.MonthValue.StringDashSeparatedValue
 {
     [TestFixture]
-    public class when_a_user_passes_in_lowest_int_years_value
+    public class when_a_user_passes_in_a_valid_dashed_month_string_value
     {
-        private const string CronValue = "* * * * * * 1970";
+        private const string CronValue = "* * * * JAN-DEC *";
         private CronValidationResults _validationResult;
 
         [SetUp]
@@ -19,7 +19,7 @@ namespace CronEspresso.Test.ValidateCron.MonthValue.StringSingleValue
         [Test]
         public void it_gives_the_correct_result()
         {
-            Assert.IsTrue(_validationResult.IsValidCron);
+            Assert.True(_validationResult.IsValidCron);
         }
 
         [Test]

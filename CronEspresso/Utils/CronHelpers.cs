@@ -104,7 +104,10 @@ namespace CronEspresso.Utils
 
         private static bool ValidateMonthValue(string monthValue)
         {
-            return true;
+            if (monthValue == "*")
+                return true;
+
+            return monthValue.Any(char.IsDigit) ? ValidateIntegerValues(monthValue, 1, 12) : ValidateMonthStringValues(monthValue);
         }
 
         private static bool ValidateDayOfWeekValue(string dayOfWeekValue)
@@ -157,6 +160,39 @@ namespace CronEspresso.Utils
             return false;
         }
 
+        private static bool ValidateMonthStringValues(string monthValues)
+        {
+            if (monthValues.Contains("-"))
+                return ValidateCharcterSeperatedStringMonthValues(monthValues, '-');
+
+            if (monthValues.Contains("/"))
+            {
+                if (monthValues[0] == '/')
+                {
+                    try
+                    {
+                        var value = monthValues.Substring(1, monthValues.Length - 1);
+                        return ValidateMonthStringValue(value);
+                    }
+                    catch (FormatException)
+                    {
+                        return false;
+                    }
+                }
+
+                return ValidateCharcterSeperatedStringMonthValues(monthValues, '/');
+            }
+
+            if (monthValues.Contains(","))
+            {
+                var monthValuesSplit = monthValues.Split(',');
+
+                return monthValuesSplit.All(ValidateMonthStringValue);
+            }
+
+            return ValidateMonthStringValue(monthValues);
+        }
+
         private static bool ValidateCharcterSeperatedIntValues(string values, int minValue, int maxValue, char seperator)
         {
             if (values.Count(c => c == seperator) > 1)
@@ -172,6 +208,73 @@ namespace CronEspresso.Utils
             catch (FormatException)
             {
                 return false;
+            }
+        }
+
+        private static bool ValidateCharcterSeperatedStringMonthValues(string values, char seperator)
+        {
+            if (values.Count(c => c == seperator) > 1)
+                return false;
+
+            var firstValue = values.Substring(0, values.IndexOf(seperator));
+            var secondValue = values.Substring(values.IndexOf(seperator) + 1);
+
+            return ValidateMonthStringValue(firstValue) && ValidateMonthStringValue(secondValue);
+        }
+
+        private static bool ValidateDayOfWeekStringValue(string value)
+        {
+            switch (value)
+            {
+                case "SUN":
+                    return true;
+                case "MON":
+                    return true;
+                case "TUE":
+                    return true;
+                case "WED":
+                    return true;
+                case "THU":
+                    return true;
+                case "FRI":
+                    return true;
+                case "SAT":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        private static bool ValidateMonthStringValue(string value)
+        {
+            switch (value)
+            {
+                case "JAN":
+                    return true;
+                case "FEB":
+                    return true;
+                case "MAR":
+                    return true;
+                case "APR":
+                    return true;
+                case "MAY":
+                    return true;
+                case "JUN":
+                    return true;
+                case "JUL":
+                    return true;
+                case "AUG":
+                    return true;
+                case "SEP":
+                    return true;
+                case "OCT":
+                    return true;
+                case "NOV":
+                    return true;
+                case "DEC":
+                    return true;
+                default:
+                    return false;
             }
         }
     }
