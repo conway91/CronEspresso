@@ -142,7 +142,7 @@
     <value>The seconds value is invalid. Allowed values are "0 to 59 , - * /". The value provided was '{0}'</value>
   </data>
   <data name="InvalidYear" xml:space="preserve">
-    <value>The YEAR value is invalid. Allowed values are "empty 1970-2099 , - * /". The value provided was '{0}'</value>
+    <value>The year value is invalid. Allowed values are "empty 1970-2099 , - * /". The value provided was '{0}'</value>
   </data>
   <data name="ValidExpression" xml:space="preserve">
     <value>The cron format provided '{0}' is a valid cron expression</value>

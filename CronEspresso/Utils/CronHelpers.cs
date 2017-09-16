@@ -70,44 +70,36 @@ namespace CronEspresso.Utils
             if (timeValue == "*")
                 return true;
 
-            int parsedtimeValue;
-            if (int.TryParse(timeValue, out parsedtimeValue))
-                return parsedtimeValue >= 0 && parsedtimeValue <= maxValue;
-
-            if (timeValue.Contains("-"))
-                return ValidateCharcterSeperatedIntValues(timeValue, maxValue, '-');
-
-            if (timeValue.Contains("/"))
-            {
-                if (timeValue[0] == '/')
-                {
-                    try
-                    {
-                        var value = int.Parse(timeValue.Substring(1, timeValue.Length - 1));
-                        return value >= 0 && value <= maxValue;
-                    }
-                    catch (FormatException)
-                    {
-                        return false;
-                    }
-                }
-
-                return ValidateCharcterSeperatedIntValues(timeValue, maxValue, '/');
-            }
-
-            if (timeValue.Contains(","))
-            {
-                var timeValues = timeValue.Split(',');
-
-                return !timeValues.Any(string.IsNullOrWhiteSpace) && timeValues.Select(int.Parse).All(parsedValue => parsedValue >= 0 && parsedValue <= maxValue);
-            }
-
-            return false;
+            return ValidateIntegerValues(timeValue, 0, maxValue);
         }
 
         private static bool ValidateDayOfMonthValue(string dayOfMonthValue)
         {
-            return true;
+            var formatedFayOfMonthValue = dayOfMonthValue.ToUpper();
+
+            if (dayOfMonthValue == "*" || dayOfMonthValue == "?" || dayOfMonthValue == "L" || dayOfMonthValue == "LW")
+                return true;
+
+            if (formatedFayOfMonthValue.Contains("L"))
+                return false;   //// Since we have already checked for a sinle 'L' or 'LW', any other is invalid
+
+            if (formatedFayOfMonthValue.Contains("W"))
+            {
+                if (!formatedFayOfMonthValue.EndsWith("W"))
+                    return false;
+                
+                try
+                {
+                    var weekdayValue = int.Parse(formatedFayOfMonthValue.TrimEnd(formatedFayOfMonthValue[formatedFayOfMonthValue.Length - 1]));
+                    return weekdayValue >= 1 && weekdayValue <= 32;
+                }
+                catch (FormatException)
+                {
+                    return false;
+                }
+            }
+
+            return ValidateIntegerValues(dayOfMonthValue, 1, 31);
         }
 
         private static bool ValidateMonthValue(string monthValue)
@@ -122,10 +114,50 @@ namespace CronEspresso.Utils
 
         private static bool ValidateYearValue(string yearValue)
         {
-            return true;
+            if (yearValue == "*")
+                return true;
+
+            return ValidateIntegerValues(yearValue, 1970, 2099);
         }
 
-        private static bool ValidateCharcterSeperatedIntValues(string values, int maxValue, char seperator)
+        private static bool ValidateIntegerValues(string intValues, int minValue, int maxValue)
+        {
+            int parsedtimeValue;
+            if (int.TryParse(intValues, out parsedtimeValue))
+                return parsedtimeValue >= minValue && parsedtimeValue <= maxValue;
+
+            if (intValues.Contains("-"))
+                return ValidateCharcterSeperatedIntValues(intValues, minValue, maxValue, '-');
+
+            if (intValues.Contains("/"))
+            {
+                if (intValues[0] == '/')
+                {
+                    try
+                    {
+                        var value = int.Parse(intValues.Substring(1, intValues.Length - 1));
+                        return value >= minValue && value <= maxValue;
+                    }
+                    catch (FormatException)
+                    {
+                        return false;
+                    }
+                }
+
+                return ValidateCharcterSeperatedIntValues(intValues, minValue, maxValue, '/');
+            }
+
+            if (intValues.Contains(","))
+            {
+                var timeValues = intValues.Split(',');
+
+                return !timeValues.Any(string.IsNullOrWhiteSpace) && timeValues.Select(int.Parse).All(parsedValue => parsedValue >= minValue && parsedValue <= maxValue);
+            }
+
+            return false;
+        }
+
+        private static bool ValidateCharcterSeperatedIntValues(string values, int minValue, int maxValue, char seperator)
         {
             if (values.Count(c => c == seperator) > 1)
                 return false;
@@ -135,7 +167,7 @@ namespace CronEspresso.Utils
                 var firstValue = int.Parse(values.Substring(0, values.IndexOf(seperator)));
                 var secondValue = int.Parse(values.Substring(values.IndexOf(seperator) + 1));
 
-                return firstValue <= secondValue && firstValue >= 0 && secondValue <= maxValue;
+                return firstValue <= secondValue && firstValue >= minValue && secondValue <= maxValue;
             }
             catch (FormatException)
             {

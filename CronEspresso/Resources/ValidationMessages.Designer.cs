@@ -133,7 +133,7 @@ namespace CronEspresso.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The YEAR value is invalid. Allowed values are &quot;empty 1970-2099 , - * /&quot;. The value provided was &apos;{0}&apos;.
+        ///   Looks up a localized string similar to The year value is invalid. Allowed values are &quot;empty 1970-2099 , - * /&quot;. The value provided was &apos;{0}&apos;.
         /// </summary>
         public static string InvalidYear {
             get {
