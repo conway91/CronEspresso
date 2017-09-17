@@ -2,7 +2,7 @@
 using CronEspresso.Utils;
 using NUnit.Framework;
 
-namespace CronEspresso.Test.ValidateCron.MonthValue.StringSingleValue
+namespace CronEspresso.Test.ValidateCron.YearsValueValidation.SingleValue
 {
     [TestFixture]
     public class when_a_user_passes_in_a_years_value_above_highest

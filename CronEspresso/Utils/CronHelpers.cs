@@ -54,7 +54,7 @@ namespace CronEspresso.Utils
                 return new CronValidationResults(false, string.Format(ValidationMessages.InvalidMonth, cronExpression));
 
             if (!ValidateDayOfWeekValue(cronValues[5]))
-                return new CronValidationResults(false, string.Format(ValidationMessages.InvalidMonth, cronExpression));
+                return new CronValidationResults(false, string.Format(ValidationMessages.InvalidDayOfWeek, cronExpression));
 
             if (cronValues.Length == 7)
             {
@@ -75,22 +75,22 @@ namespace CronEspresso.Utils
 
         private static bool ValidateDayOfMonthValue(string dayOfMonthValue)
         {
-            var formatedFayOfMonthValue = dayOfMonthValue.ToUpper();
+            var formatedDayOfMonthValue = dayOfMonthValue.ToUpper();
 
             if (dayOfMonthValue == "*" || dayOfMonthValue == "?" || dayOfMonthValue == "L" || dayOfMonthValue == "LW")
                 return true;
 
-            if (formatedFayOfMonthValue.Contains("L"))
+            if (formatedDayOfMonthValue.Contains("L"))
                 return false;   //// Since we have already checked for a sinle 'L' or 'LW', any other is invalid
 
-            if (formatedFayOfMonthValue.Contains("W"))
+            if (formatedDayOfMonthValue.Contains("W"))
             {
-                if (!formatedFayOfMonthValue.EndsWith("W"))
+                if (!formatedDayOfMonthValue.EndsWith("W"))
                     return false;
                 
                 try
                 {
-                    var weekdayValue = int.Parse(formatedFayOfMonthValue.TrimEnd(formatedFayOfMonthValue[formatedFayOfMonthValue.Length - 1]));
+                    var weekdayValue = int.Parse(formatedDayOfMonthValue.TrimEnd(formatedDayOfMonthValue[formatedDayOfMonthValue.Length - 1]));
                     return weekdayValue >= 1 && weekdayValue <= 32;
                 }
                 catch (FormatException)
@@ -112,7 +112,46 @@ namespace CronEspresso.Utils
 
         private static bool ValidateDayOfWeekValue(string dayOfWeekValue)
         {
-            return true;
+            if (dayOfWeekValue == "*" || dayOfWeekValue == "?")
+                return true;
+
+            var formatedDayOfWeekValue = dayOfWeekValue.ToUpper();
+
+            if (formatedDayOfWeekValue.Contains("L"))
+            {
+                if (!formatedDayOfWeekValue.EndsWith("L"))
+                    return false;
+
+                try
+                {
+                    var weekdayValue = int.Parse(formatedDayOfWeekValue.TrimEnd(formatedDayOfWeekValue[formatedDayOfWeekValue.Length - 1]));
+                    return weekdayValue >= 1 && weekdayValue <= 7;
+                }
+                catch (FormatException)
+                {
+                    return false;
+                }
+            }
+
+            if (formatedDayOfWeekValue.Contains("#"))
+            {
+                if (formatedDayOfWeekValue.Count(c => c == '#') > 1)
+                    return false;
+
+                try
+                {
+                    var firstValue = int.Parse(formatedDayOfWeekValue.Substring(0, formatedDayOfWeekValue.IndexOf('#')));
+                    var secondValue = int.Parse(formatedDayOfWeekValue.Substring(formatedDayOfWeekValue.IndexOf('#') + 1));
+
+                    return firstValue <= 7 && firstValue >= 1 && secondValue >= 1 && secondValue <= 31;
+                }
+                catch (FormatException)
+                {
+                    return false;
+                }
+            }
+
+             return formatedDayOfWeekValue.Any(char.IsDigit) ? ValidateIntegerValues(formatedDayOfWeekValue, 1, 7) : ValidateWeekDayStringValues(formatedDayOfWeekValue);
         }
 
         private static bool ValidateYearValue(string yearValue)
@@ -193,6 +232,39 @@ namespace CronEspresso.Utils
             return ValidateMonthStringValue(monthValues);
         }
 
+        private static bool ValidateWeekDayStringValues(string weekDayValues)
+        {
+            if (weekDayValues.Contains("-"))
+                return ValidateCharcterSeperatedStringDayOfWeekValues(weekDayValues, '-');
+
+            if (weekDayValues.Contains("/"))
+            {
+                if (weekDayValues[0] == '/')
+                {
+                    try
+                    {
+                        var value = weekDayValues.Substring(1, weekDayValues.Length - 1);
+                        return ValidateDayOfWeekStringValue(value);
+                    }
+                    catch (FormatException)
+                    {
+                        return false;
+                    }
+                }
+
+                return ValidateCharcterSeperatedStringDayOfWeekValues(weekDayValues, '/');
+            }
+
+            if (weekDayValues.Contains(","))
+            {
+                var weekDayValuesSplit = weekDayValues.Split(',');
+
+                return weekDayValuesSplit.All(ValidateDayOfWeekStringValue);
+            }
+
+            return ValidateDayOfWeekStringValue(weekDayValues);
+        }
+
         private static bool ValidateCharcterSeperatedIntValues(string values, int minValue, int maxValue, char seperator)
         {
             if (values.Count(c => c == seperator) > 1)
@@ -220,6 +292,17 @@ namespace CronEspresso.Utils
             var secondValue = values.Substring(values.IndexOf(seperator) + 1);
 
             return ValidateMonthStringValue(firstValue) && ValidateMonthStringValue(secondValue);
+        }
+
+        private static bool ValidateCharcterSeperatedStringDayOfWeekValues(string values, char seperator)
+        {
+            if (values.Count(c => c == seperator) > 1)
+                return false;
+
+            var firstValue = values.Substring(0, values.IndexOf(seperator));
+            var secondValue = values.Substring(values.IndexOf(seperator) + 1);
+
+            return ValidateDayOfWeekStringValue(firstValue) && ValidateDayOfWeekStringValue(secondValue);
         }
 
         private static bool ValidateDayOfWeekStringValue(string value)
