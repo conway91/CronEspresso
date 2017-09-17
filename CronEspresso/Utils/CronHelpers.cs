@@ -107,7 +107,7 @@ namespace CronEspresso.Utils
             if (monthValue == "*")
                 return true;
 
-            return monthValue.Any(char.IsDigit) ? ValidateIntegerValues(monthValue, 1, 12) : ValidateMonthStringValues(monthValue);
+            return monthValue.Any(char.IsDigit) ? ValidateIntegerValues(monthValue, 1, 12) : ValidateStringValues(monthValue, StringValidators.ValidateMonthStringValue);
         }
 
         private static bool ValidateDayOfWeekValue(string dayOfWeekValue)
@@ -151,7 +151,7 @@ namespace CronEspresso.Utils
                 }
             }
 
-             return formatedDayOfWeekValue.Any(char.IsDigit) ? ValidateIntegerValues(formatedDayOfWeekValue, 1, 7) : ValidateWeekDayStringValues(formatedDayOfWeekValue);
+             return formatedDayOfWeekValue.Any(char.IsDigit) ? ValidateIntegerValues(formatedDayOfWeekValue, 1, 7) : ValidateStringValues(formatedDayOfWeekValue, StringValidators.ValidateDayOfWeekStringValue);
         }
 
         private static bool ValidateYearValue(string yearValue)
@@ -199,10 +199,10 @@ namespace CronEspresso.Utils
             return false;
         }
 
-        private static bool ValidateMonthStringValues(string monthValues)
+        private static bool ValidateStringValues(string monthValues, Func<string, bool> stringValidator)
         {
             if (monthValues.Contains("-"))
-                return ValidateCharcterSeperatedStringMonthValues(monthValues, '-');
+                return ValidateCharcterSeperatedStringValues(monthValues, '-', stringValidator);
 
             if (monthValues.Contains("/"))
             {
@@ -211,7 +211,7 @@ namespace CronEspresso.Utils
                     try
                     {
                         var value = monthValues.Substring(1, monthValues.Length - 1);
-                        return ValidateMonthStringValue(value);
+                        return stringValidator(value);
                     }
                     catch (FormatException)
                     {
@@ -219,50 +219,17 @@ namespace CronEspresso.Utils
                     }
                 }
 
-                return ValidateCharcterSeperatedStringMonthValues(monthValues, '/');
+                return ValidateCharcterSeperatedStringValues(monthValues, '/', stringValidator);
             }
 
             if (monthValues.Contains(","))
             {
                 var monthValuesSplit = monthValues.Split(',');
 
-                return monthValuesSplit.All(ValidateMonthStringValue);
+                return monthValuesSplit.All(stringValidator);
             }
 
-            return ValidateMonthStringValue(monthValues);
-        }
-
-        private static bool ValidateWeekDayStringValues(string weekDayValues)
-        {
-            if (weekDayValues.Contains("-"))
-                return ValidateCharcterSeperatedStringDayOfWeekValues(weekDayValues, '-');
-
-            if (weekDayValues.Contains("/"))
-            {
-                if (weekDayValues[0] == '/')
-                {
-                    try
-                    {
-                        var value = weekDayValues.Substring(1, weekDayValues.Length - 1);
-                        return ValidateDayOfWeekStringValue(value);
-                    }
-                    catch (FormatException)
-                    {
-                        return false;
-                    }
-                }
-
-                return ValidateCharcterSeperatedStringDayOfWeekValues(weekDayValues, '/');
-            }
-
-            if (weekDayValues.Contains(","))
-            {
-                var weekDayValuesSplit = weekDayValues.Split(',');
-
-                return weekDayValuesSplit.All(ValidateDayOfWeekStringValue);
-            }
-
-            return ValidateDayOfWeekStringValue(weekDayValues);
+            return stringValidator(monthValues);
         }
 
         private static bool ValidateCharcterSeperatedIntValues(string values, int minValue, int maxValue, char seperator)
@@ -283,7 +250,7 @@ namespace CronEspresso.Utils
             }
         }
 
-        private static bool ValidateCharcterSeperatedStringMonthValues(string values, char seperator)
+        private static bool ValidateCharcterSeperatedStringValues(string values, char seperator, Func<string, bool> stringValidator)
         {
             if (values.Count(c => c == seperator) > 1)
                 return false;
@@ -291,74 +258,7 @@ namespace CronEspresso.Utils
             var firstValue = values.Substring(0, values.IndexOf(seperator));
             var secondValue = values.Substring(values.IndexOf(seperator) + 1);
 
-            return ValidateMonthStringValue(firstValue) && ValidateMonthStringValue(secondValue);
-        }
-
-        private static bool ValidateCharcterSeperatedStringDayOfWeekValues(string values, char seperator)
-        {
-            if (values.Count(c => c == seperator) > 1)
-                return false;
-
-            var firstValue = values.Substring(0, values.IndexOf(seperator));
-            var secondValue = values.Substring(values.IndexOf(seperator) + 1);
-
-            return ValidateDayOfWeekStringValue(firstValue) && ValidateDayOfWeekStringValue(secondValue);
-        }
-
-        private static bool ValidateDayOfWeekStringValue(string value)
-        {
-            switch (value)
-            {
-                case "SUN":
-                    return true;
-                case "MON":
-                    return true;
-                case "TUE":
-                    return true;
-                case "WED":
-                    return true;
-                case "THU":
-                    return true;
-                case "FRI":
-                    return true;
-                case "SAT":
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        private static bool ValidateMonthStringValue(string value)
-        {
-            switch (value)
-            {
-                case "JAN":
-                    return true;
-                case "FEB":
-                    return true;
-                case "MAR":
-                    return true;
-                case "APR":
-                    return true;
-                case "MAY":
-                    return true;
-                case "JUN":
-                    return true;
-                case "JUL":
-                    return true;
-                case "AUG":
-                    return true;
-                case "SEP":
-                    return true;
-                case "OCT":
-                    return true;
-                case "NOV":
-                    return true;
-                case "DEC":
-                    return true;
-                default:
-                    return false;
-            }
+            return stringValidator(firstValue) && stringValidator(secondValue);
         }
     }
 }

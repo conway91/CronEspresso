@@ -59,6 +59,7 @@
     </Compile>
     <Compile Include="Enums\MonthOfYear.cs" />
     <Compile Include="Enums\TimeOfMonthToRun.cs" />
+    <Compile Include="Utils\StringValidators.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\ExceptionMessages.resx">
