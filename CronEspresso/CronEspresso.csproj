@@ -41,22 +41,37 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CronGenerator.cs" />
+    <Compile Include="CronParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\CronValueValidator.cs" />
-    <Compile Include="Utils\ExceptionMessages.Designer.cs">
+    <Compile Include="Resources\ValidationMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ValidationMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\CronHelpers.cs" />
+    <Compile Include="Utils\CronTriggerTimes.cs" />
+    <Compile Include="Utils\CronValidationResults.cs" />
+    <Compile Include="CronGenerationValueValidator.cs" />
+    <Compile Include="Resources\ExceptionMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ExceptionMessages.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utils\MonthOfYear.cs" />
-    <Compile Include="Utils\TimeOfMonthToRun.cs" />
+    <Compile Include="Enums\MonthOfYear.cs" />
+    <Compile Include="Enums\TimeOfMonthToRun.cs" />
+    <Compile Include="Utils\StringValidators.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Utils\ExceptionMessages.resx">
+    <EmbeddedResource Include="Resources\ExceptionMessages.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ValidationMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ValidationMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

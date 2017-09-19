@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CronEspresso.Resources;
 
 namespace CronEspresso.Utils
 {
-    internal static class CronValueValidator
+    internal static class CronGenerationValueValidator
     {
         internal static void ValidateDays(List<int> days)
         {

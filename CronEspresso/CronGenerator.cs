@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CronEspresso.Enums;
+using CronEspresso.Resources;
 using CronEspresso.Utils;
 
 namespace CronEspresso
@@ -15,7 +17,7 @@ namespace CronEspresso
         /// <returns>Cron experssion</returns>
         public static string GenerateMinutesCronExpression(int minutes)
         {
-            CronValueValidator.ValidateMinutes(minutes);
+            CronGenerationValueValidator.ValidateMinutes(minutes);
 
             return $"0 0/{minutes} * 1/1 * ? *"; 
         }
@@ -28,7 +30,7 @@ namespace CronEspresso
         /// <returns>Cron experssion</returns>
         public static string GenerateHourlyCronExpression(int hours)
         {
-            CronValueValidator.ValidateHours(hours);
+            CronGenerationValueValidator.ValidateHours(hours);
 
             return $"0 0 0/{hours} 1/1 * ? *";
         }
@@ -114,8 +116,8 @@ namespace CronEspresso
         /// <returns>Cron experssion</returns>
         public static string GenerateMonthlyCronExpression(TimeSpan runTime, int dayofTheMonthToRunOn, int monthsToRunOn)
         {
-            CronValueValidator.ValidateDayOfMonthToRunOn(dayofTheMonthToRunOn);
-            CronValueValidator.ValidateMonthsToRunAfter(monthsToRunOn);
+            CronGenerationValueValidator.ValidateDayOfMonthToRunOn(dayofTheMonthToRunOn);
+            CronGenerationValueValidator.ValidateMonthsToRunAfter(monthsToRunOn);
 
             return $"{ParseCronTimeSpan(runTime)} {dayofTheMonthToRunOn} 1/{monthsToRunOn} ? *";
         }
@@ -177,17 +179,17 @@ namespace CronEspresso
         #region Private Implementation      
         private static string CreateYearlyValue(TimeSpan runTime, int dayOfMonthToRunOn, int monthToRunOn)
         {
-            CronValueValidator.ValidateDayOfMonthToRunOn(dayOfMonthToRunOn);
-            CronValueValidator.ValidateMonthToRunOn(monthToRunOn);
-            CronValueValidator.ValidateDayOfMonthForFebrary(monthToRunOn, dayOfMonthToRunOn);
-            CronValueValidator.ValidateDayOfMonthForShorterMonth(monthToRunOn, dayOfMonthToRunOn);
+            CronGenerationValueValidator.ValidateDayOfMonthToRunOn(dayOfMonthToRunOn);
+            CronGenerationValueValidator.ValidateMonthToRunOn(monthToRunOn);
+            CronGenerationValueValidator.ValidateDayOfMonthForFebrary(monthToRunOn, dayOfMonthToRunOn);
+            CronGenerationValueValidator.ValidateDayOfMonthForShorterMonth(monthToRunOn, dayOfMonthToRunOn);
 
             return $"{ParseCronTimeSpan(runTime)} {dayOfMonthToRunOn} {monthToRunOn} ? *";
         }
 
         private static string CreateTimeOfMonthValue(TimeSpan runTime, TimeOfMonthToRun timeOfMonthToRun, int dayToRun, int amountOfMonthsToRunAfter)
         {
-            CronValueValidator.ValidateMonthsToRunAfter(amountOfMonthsToRunAfter);
+            CronGenerationValueValidator.ValidateMonthsToRunAfter(amountOfMonthsToRunAfter);
 
             if (timeOfMonthToRun != TimeOfMonthToRun.Last)
             {
@@ -204,7 +206,7 @@ namespace CronEspresso
 
         private static string CreateMultiDayValue(TimeSpan runTime, List<int> days)
         {
-            CronValueValidator.ValidateDays(days);
+            CronGenerationValueValidator.ValidateDays(days);
 
             return $"{ParseCronTimeSpan(runTime)} ? * {ParseMultiDaysList(days)} *";
         }

@@ -1,4 +1,4 @@
-﻿namespace CronEspresso.Utils
+﻿namespace CronEspresso.Enums
 {
     public enum MonthOfYear
     {
