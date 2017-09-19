@@ -1,4 +1,5 @@
 ﻿using System;
+using CronEspresso.Resources;
 using CronEspresso.Utils;
 using NUnit.Framework;
 using CronEspressoGenerator = CronEspresso.CronGenerator;
