@@ -2,5 +2,7 @@ CronEspresso/bin
 CronEspresso/obj
 CronEspresso.Test/bin
 CronEspresso.Test/obj
+CronEspresso.Example/bin
+CronEspresso.Example/obj
 .vs/
 packages
