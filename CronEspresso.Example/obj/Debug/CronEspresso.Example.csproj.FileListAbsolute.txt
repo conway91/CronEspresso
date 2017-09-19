@@ -1,8 +1,0 @@
-C:\work\CronEspresso\CronEspresso.Example\bin\Debug\CronEspresso.Example.exe.config
-C:\work\CronEspresso\CronEspresso.Example\bin\Debug\CronEspresso.Example.exe
-C:\work\CronEspresso\CronEspresso.Example\bin\Debug\CronEspresso.Example.pdb
-C:\work\CronEspresso\CronEspresso.Example\bin\Debug\CronEspresso.dll
-C:\work\CronEspresso\CronEspresso.Example\bin\Debug\CronEspresso.pdb
-C:\work\CronEspresso\CronEspresso.Example\obj\Debug\CronEspresso.Example.csprojResolveAssemblyReference.cache
-C:\work\CronEspresso\CronEspresso.Example\obj\Debug\CronEspresso.Example.exe
-C:\work\CronEspresso\CronEspresso.Example\obj\Debug\CronEspresso.Example.pdb
