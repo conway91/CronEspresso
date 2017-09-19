@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>CronEspresso</id>
-    <version>1.3</version>
+    <version>2.0</version>
     <title>CronEspresso</title>
     <authors>Martin Conway</authors>
     <owners>Martin Conway</owners>
@@ -10,8 +10,8 @@
     <iconUrl>https://conwayimages.blob.core.windows.net/nugetimages/CronEspressoNugetIcon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Library for generating cron expressions</description>
-    <releaseNotes>Removed empty class for deserialization till implementation in version 2</releaseNotes>
+    <releaseNotes>Implementation of cron validation method which validates a given cron string.</releaseNotes>
     <copyright>Martin Conway Copyright 2017</copyright>
-    <tags>Cron cron CronTrigger crontrigger expressions Expressions create Create Espresso espresso CronEspresso cronespresso</tags>
+    <tags>cron crontrigger expressions espresso cronespresso parser scheduling task</tags>
   </metadata>
 </package>
