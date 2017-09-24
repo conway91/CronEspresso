@@ -49,7 +49,6 @@
     <Compile Include="CronGenerator\GenerateHourlyCronExpression\when_a_user_generates_an_hourly_cron_with_a_negative_number.cs" />
     <Compile Include="CronGenerator\GenerateHourlyCronExpression\when_a_user_generates_an_hourly_cron_with_zero_hours.cs" />
     <Compile Include="CronGenerator\GenerateMinutesCronExpression\when_a_user_generates_a_minute_cron.cs" />
-    <Compile Include="CronGenerator\GenerateMinutesCronExpression\when_a_user_generates_a_minute_cron_with_a_higher_number.cs" />
     <Compile Include="CronGenerator\GenerateMinutesCronExpression\when_a_user_generates_a_minute_cron_with_a_negative_number.cs" />
     <Compile Include="CronGenerator\GenerateMinutesCronExpression\when_a_user_generates_a_minute_cron_with_zero_minutes.cs" />
     <Compile Include="CronGenerator\GenerateMonthlyCronExpression\when_a_user_generates_a_monthly_cron.cs" />
