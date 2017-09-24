@@ -2,7 +2,7 @@ language: csharp
 solution: CronEspresso.sln
 install:
   - nuget restore CronEspresso.sln
-  - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
+  - nuget install NUnit.Runners -Version 3.7.1 -OutputDirectory testrunner
 script:
   - xbuild /p:Configuration=Release CronEspresso.sln
-  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./CronEspresso.Test/bin/Release/CronEspresso.Test.dll
+  - mono ./testrunner/NUnit.Runners.3.7.1/tools/nunit-console.exe ./CronEspresso.Test/bin/Release/CronEspresso.Test.dll
