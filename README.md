@@ -1,6 +1,7 @@
 # CronEspresso
 
-C# library for generating cron expressions from given times and dates.
+C# library for generating cron expressions from given times and dates. ![alt text](https://travis-ci.org/conway91/CronEspresso.svg?branch=master "CronEspresso Build Status")
+
 
 CronEspresso allows the creation of cron strings at run time, removing the need to hard code cron string values into the source code. This can be helpful in projects where cron strings need to be created on the fly or are generated based on variable values within the code (e.g. run every 2 hours from the current time), CronEspresso has easy to read methods that can be called to produce a cron string to suit the given parameters.
 
