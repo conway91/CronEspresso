@@ -4,6 +4,7 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <PackageId>CronEspresso</PackageId>
         <PackageVersion>3.0.0</PackageVersion>
+        <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
         <Title>CronEspresso</Title>
         <Authors>Martin Conway</Authors>
         <Description>Library for generating cron expressions</Description>
