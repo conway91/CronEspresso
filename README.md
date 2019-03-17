@@ -1,6 +1,6 @@
 # CronEspresso
 
-C# library for generating cron expressions from given times and dates. ![alt text](https://travis-ci.org/conway91/CronEspresso.svg?branch=master "CronEspresso Build Status")
+C# library for generating cron expressions from given times and dates. ![alt text](https://travis-ci.org/conway91/CronEspresso-NET.svg?branch=master "CronEspresso Build Status")
 
 
 CronEspresso allows the creation of cron strings at run time, removing the need to hard code cron string values into the source code. This can be helpful in projects where cron strings need to be created on the fly or are generated based on variable values within the code (e.g. run every 2 hours from the current time), CronEspresso has easy to read methods that can be called to produce a cron string to suit the given parameters.
@@ -23,7 +23,7 @@ Example Usage:
 
 ## Installing
 
-To use CronEspresso in your solution download the NuGet package via Visual Studio's package manager (search for 'CronEspresso') or run the following line to get the most recent version
+To use CronEspresso in your solution download the NuGet package via Visual Studio's package manager (search for 'CronEspresso') or run the following line to get the most recent version. The current version is a dot net standard 2.0 package
 
 ```
 Install-Package CronEspresso
@@ -35,7 +35,14 @@ For detailed documention on how to use the package, visit the GitHub [Wiki](http
 
 ## Version History
 
-### v2.0 (Latest NuGet Version)
+### v3.0 (Latest NuGet Version)
+
+```
+* Converted whole project to be a dot net standard 2.0 package
+* Minor spelling mistakes corrected, no code logic changed in this release
+```
+
+### v2.0 
 
 ```
 * Implementation of cron validation method which validates a given cron string
