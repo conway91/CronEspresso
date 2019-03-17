@@ -1,9 +1,7 @@
-CronEspresso/bin
-CronEspresso/obj
-CronEspresso.Test/bin
-CronEspresso.Test/obj
-CronEspresso.Example/bin
-CronEspresso.Example/obj
+CronEspresso.NETCore/bin
+CronEspresso.NETCore/obj
+CronEspresso.NETCore.Test/bin
+CronEspresso.NETCore.Test/obj
 .vs/
 .idea/
 packages
