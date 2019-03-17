@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <PackageId>CronEspresso</PackageId>
+        <PackageVersion>3.0.0</PackageVersion>
+        <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+        <Title>CronEspresso</Title>
+        <Authors>Martin Conway</Authors>
+        <Description>Library for generating cron expressions</Description>
+        <Copyright>Martin Conway Copyright 2019</Copyright>
+        <PackageProjectUrl>https://github.com/conway91/CronEspresso</PackageProjectUrl>
+        <PackageIconUrl>https://conwayimages.blob.core.windows.net/nugetimages/CronEspressoNugetIcon.png</PackageIconUrl>
+        <RepositoryUrl>https://github.com/conway91/CronEspresso</RepositoryUrl>
+        <PackageTags>cron crontrigger expressions espresso cronespresso parser scheduling task</PackageTags>
+        <PackageReleaseNotes>dot net stanard release (dot net stanard 2.0).</PackageReleaseNotes>
+    </PropertyGroup>
+
+</Project>
