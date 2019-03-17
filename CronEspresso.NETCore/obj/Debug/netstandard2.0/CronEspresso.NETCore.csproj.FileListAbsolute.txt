@@ -1,0 +1,9 @@
+C:\work\CronEspresso\CronEspresso.NETCore\obj\Debug\netstandard2.0\CronEspresso.NETCore.csprojAssemblyReference.cache
+C:\work\CronEspresso\CronEspresso.NETCore\obj\Debug\netstandard2.0\CronEspresso.NETCore.csproj.CoreCompileInputs.cache
+C:\work\CronEspresso\CronEspresso.NETCore\obj\Debug\netstandard2.0\CronEspresso.NETCore.AssemblyInfoInputs.cache
+C:\work\CronEspresso\CronEspresso.NETCore\obj\Debug\netstandard2.0\CronEspresso.NETCore.AssemblyInfo.cs
+C:\work\CronEspresso\CronEspresso.NETCore\bin\Debug\netstandard2.0\CronEspresso.NETCore.deps.json
+C:\work\CronEspresso\CronEspresso.NETCore\bin\Debug\netstandard2.0\CronEspresso.NETCore.dll
+C:\work\CronEspresso\CronEspresso.NETCore\bin\Debug\netstandard2.0\CronEspresso.NETCore.pdb
+C:\work\CronEspresso\CronEspresso.NETCore\obj\Debug\netstandard2.0\CronEspresso.NETCore.dll
+C:\work\CronEspresso\CronEspresso.NETCore\obj\Debug\netstandard2.0\CronEspresso.NETCore.pdb

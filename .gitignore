@@ -5,4 +5,5 @@ CronEspresso.Test/obj
 CronEspresso.Example/bin
 CronEspresso.Example/obj
 .vs/
+.idea/
 packages
