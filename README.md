@@ -10,13 +10,13 @@ Example Usage:
     //// Once the package is installed include this in your using
     using CronEspresso;
 
-    //// Cron a cron that runs every 12 hours
+    //// Cron a cron that runs every 6 hours
     var hourlyCron = CronGenerator.GenerateHourlyCronExpression(6); 
-    Console.WriteLine(cron); //// This would output "0 0 6 1/1 * ? *"
+    Console.WriteLine(hourlyCron); //// This would output "0 0 0/6 1/1 * ? *"
     
     //// Cron a cron that runs every day at 14:00
     var dailyCron = CronGenerator.GenerateDailyCronExpression(new TimeSpan(14, 0, 0));
-    Console.WriteLine(cron); //// This would output "0 0 14 1/1 * ? *"
+    Console.WriteLine(dailyCron); //// This would output "0 0 14 1/1 * ? *"
     
     //// For a full list of methods and how to use them please visit the github wiki page.
 ```
