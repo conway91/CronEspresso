@@ -24,7 +24,7 @@ namespace CronEspresso.NETCore.Utils
         }
 
         /// <summary>
-        /// Validates a cron expression to ensure it is in the correct stanard format
+        /// Validates a cron expression to ensure it is in the correct standard format
         /// </summary>
         /// <param name="cronExpression">Full cron expression</param>
         /// <returns>CronValidationResults which contains a bool if validate and a string description of results</returns>

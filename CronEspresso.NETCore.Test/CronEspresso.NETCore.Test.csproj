@@ -15,4 +15,9 @@
       <ProjectReference Include="..\CronEspresso.NETCore\CronEspresso.NETCore.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="CronParserTests\GetFutureCronTriggerDates" />
+      <Folder Include="CronParserTests\GetNextCronTriggerDate" />
+    </ItemGroup>
+
 </Project>

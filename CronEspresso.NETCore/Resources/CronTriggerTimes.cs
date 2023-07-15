@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CronEspresso.NETCore.Utils
+namespace CronEspresso.NETCore.Resources
 {
     public class CronTriggerDates
     {
